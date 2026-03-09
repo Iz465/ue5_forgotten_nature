@@ -37,13 +37,14 @@ void UPlayerStatsComponent::ApplyDamage(float damage)
 	UE_LOG(LogTemp, Warning, TEXT("Health left: %f"), health);
 
 	if (health <= 0)
-		Death();
+		Death.Broadcast();
 }
 
+/*
 void UPlayerStatsComponent::Death()
 {
-	UE_LOG(LogTemp, Warning, TEXT("YOU ARE DEAD"));
-	GetOwner()->Destroy();  // destroys parent, thus destroying all
+//	UE_LOG(LogTemp, Warning, TEXT("YOU ARE DEAD"));
+//	GetOwner()->Destroy();  // destroys parent, thus destroying all
 }
-
+*/
 

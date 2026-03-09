@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PlayerStatsComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDeath);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UE5_FORGOTTEN_NATURE_API UPlayerStatsComponent : public UActorComponent
@@ -32,10 +33,13 @@ public:
 
 	void ApplyDamage(float damage);
 
+	UPROPERTY(BlueprintAssignable, Category = "OnDeath")
+	FDeath Death;
+
 
 	
 private:
 
-	void Death();
+	
 		
 };
