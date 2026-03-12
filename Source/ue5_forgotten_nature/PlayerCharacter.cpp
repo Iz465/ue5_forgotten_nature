@@ -11,12 +11,14 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "PlayerStatsComponent.h"
+#include "ItemInteractionComponent.h"
 
 APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	statsComponent = CreateDefaultSubobject<UPlayerStatsComponent>(TEXT("Stats Component"));
+	itemInteractionComponent = CreateDefaultSubobject<UItemInteractionComponent>(TEXT("Item Interaction Component"));
 
 }
 
@@ -127,19 +129,23 @@ void APlayerCharacter::Looking(const FInputActionValue& value)
 
 void APlayerCharacter::Interacting(const FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, TEXT("Guthix"));
+	itemInteractionComponent->PickItemUp();
+
+
+
+
 }
 
-float number = 0;
+
 void APlayerCharacter::Using(const FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, FString::Printf(TEXT("Zamorak %f"), number));
-	number++;
+	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, FString::Printf(TEXT("Using Item")));
+
 }
 
 void APlayerCharacter::Dropping(const FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, TEXT("Zaros"));
+	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, TEXT("Dropping Item"));
 }
 
 

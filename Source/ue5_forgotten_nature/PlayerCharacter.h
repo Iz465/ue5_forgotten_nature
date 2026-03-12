@@ -6,12 +6,14 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h" // needed for getting the values of an input
 #include "PlayerStatsComponent.h"
+#include "ItemInteractionComponent.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputMappingContext; // forward declared as only stores pointer
 class UInputAction; // forward declared as only stores pointer
 class UCameraComponent;
 class USpringArmComponent;
+//class UItemInteractionComponent;
 //class UPlayerStatsComponent;
 
 UCLASS()
@@ -67,6 +69,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UPlayerStatsComponent* statsComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UItemInteractionComponent* itemInteractionComponent;
 	
 
 private: 
