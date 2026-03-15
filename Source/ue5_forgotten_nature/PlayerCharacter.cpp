@@ -75,6 +75,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		enhancedInput->BindAction(dropAction, ETriggerEvent::Completed, this, &APlayerCharacter::Dropping);
 	if (jumpAction)
 		enhancedInput->BindAction(jumpAction, ETriggerEvent::Completed, this, &APlayerCharacter::Jump);
+	if (inventoryAction)
+		enhancedInput->BindAction(inventoryAction, ETriggerEvent::Completed, this, &APlayerCharacter::Inventory);
 
 
 
@@ -90,8 +92,7 @@ void APlayerCharacter::Movement(const FInputActionValue& value)
 	if (!camera) return;
 
 
-	const FRotator cameraRotation = camera->GetComponentRotation(); //  gets the rotation from the controller.
-	const FRotator yawRotation(0, cameraRotation.Yaw, 0); // gets the y rotation of player
+	const FRotator yawRotation(0, Controller->GetControlRotation().Yaw, 0);
 
 	// forward, left, right and backwards are all dependent on the rotation the player is facing
 	const FVector forward = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
@@ -100,6 +101,8 @@ void APlayerCharacter::Movement(const FInputActionValue& value)
 	// makes the character move. Takes movement from max walk speed in editor 
 	AddMovementInput(forward, movement2D.Y);
 	AddMovementInput(right, movement2D.X);
+
+//	AddControllerYawInput(yawRotation);
 
 
 }
@@ -110,18 +113,15 @@ void APlayerCharacter::Looking(const FInputActionValue& value)
 {
 	FVector2D looking2D = value.Get<FVector2D>();
 
-//	UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f"), looking2D.X, looking2D.Y);
-
-	AddControllerYawInput(looking2D.X * 2); // rotates player yaw. camera follows
-
 
 	if (!Controller) return;
 
 	if (!cameraSpringArm) return;
-
+	AddControllerYawInput(looking2D.X * 2);
 	FRotator cameraRotation = cameraSpringArm->GetRelativeRotation(); // gets rotation of camera.
 
 	cameraRotation.Pitch = FMath::Clamp(FRotator::NormalizeAxis(cameraRotation.Pitch) + (looking2D.Y * 2), -60, 60); 
+	cameraRotation.Yaw = 0;
 	cameraSpringArm->SetRelativeRotation(cameraRotation); // rotates camears pitch
 	
 	
@@ -149,5 +149,8 @@ void APlayerCharacter::Dropping(const FInputActionValue& value)
 }
 
 
-/*	UE_LOG(LogTemp, Warning, TEXT("Testing C++ Is working"));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dharok")); */
+void APlayerCharacter::Inventory(const FInputActionValue& value)
+{
+	itemInteractionComponent->ShowInventory();
+}
+

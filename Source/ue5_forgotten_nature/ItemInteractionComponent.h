@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "ItemInteractionComponent.generated.h"
 
 
 class AActor;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UE5_FORGOTTEN_NATURE_API UItemInteractionComponent : public UActorComponent
@@ -27,12 +29,20 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void PickItemUp();
-	void DropItem();
-	void SwitchItem();
-	void UseItem();
+	void ShowInventory();
+	//void DropItem();
+	//void SwitchItem();
+	//void UseItem();
 
 	UPROPERTY(EditAnywhere)
 	AActor* headLocation;
 
+	UPROPERTY(EditAnywhere, Category = "Widgets")
+	TSubclassOf<UUserWidget> inventoryWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* inventoryWidgetInstance;
+
+	bool inventoryOpen = false;
 		
 };

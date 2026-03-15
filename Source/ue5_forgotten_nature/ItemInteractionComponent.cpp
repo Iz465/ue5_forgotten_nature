@@ -3,6 +3,8 @@
 
 #include "ItemInteractionComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 // Sets default values for this component's properties
 UItemInteractionComponent::UItemInteractionComponent()
@@ -20,17 +22,21 @@ void UItemInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+
+	inventoryWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), inventoryWidgetClass);
+	inventoryWidgetInstance->AddToViewport();
+	inventoryWidgetInstance->SetVisibility(ESlateVisibility::Hidden);
+
 	
 }
-
+//deathWidget = CreateWidget<UUserWidget>(GetWorld(), deathWidgetClass);
 
 // Called every frame
 void UItemInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, TEXT("Scanning Item"));
+//	GEngine->AddOnScreenDebugMessage(01, 3, FColor::Purple, TEXT("Scanning Item"));
 
 
 	UCameraComponent* camera = GetOwner()->FindComponentByClass<UCameraComponent>();
@@ -50,12 +56,43 @@ void UItemInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	if (canPickUP)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Emerald, TEXT("Item can be picked up"));
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Emerald, TEXT("Item can be picked up"));
 	}
 }
 
 void UItemInteractionComponent::PickItemUp()
 {
+
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Purple, TEXT("Item Picked Up"));
+}
+
+void UItemInteractionComponent::ShowInventory()
+{
+	APawn* pawn = Cast<APawn>(GetOwner());
+	if (!pawn) return;
+
+	APlayerController* controller = Cast<APlayerController>(pawn->GetController());
+	if (!controller) return;
+
+	if (!inventoryOpen)
+	{
+		inventoryWidgetInstance->SetVisibility(ESlateVisibility::Visible);
+	
+		controller->SetIgnoreMoveInput(true);
+		controller->SetIgnoreLookInput(true);
+		
+		inventoryOpen = true;
+	}
+
+	else
+	{
+		inventoryWidgetInstance->SetVisibility(ESlateVisibility::Hidden);
+		controller->SetIgnoreMoveInput(false);
+		controller->SetIgnoreLookInput(false);
+
+		inventoryOpen = false;
+	}
+
 
 
 }

@@ -44,7 +44,7 @@ void AMine::OnOverlapBegin(UPrimitiveComponent* overlappedComp, AActor* otherAct
 	APlayerCharacter* player = Cast<APlayerCharacter>(otherActor);
 	if (!player) return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Purple, TEXT("dharokzz mine"));
+
 
 	UPlayerStatsComponent* playerStatsComponent = player->FindComponentByClass<UPlayerStatsComponent>();
 	

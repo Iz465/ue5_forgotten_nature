@@ -64,6 +64,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "input")
 	UInputAction* jumpAction;
 
+	UPROPERTY(EditAnywhere, Category = "input")
+	UInputAction* inventoryAction;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USpringArmComponent* cameraSpringArm;
 
@@ -72,6 +75,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UItemInteractionComponent* itemInteractionComponent;
+
+
+	
 	
 
 private: 
@@ -80,5 +86,6 @@ private:
 	void Interacting(const FInputActionValue& value);
 	void Using(const FInputActionValue& value);
 	void Dropping(const FInputActionValue& value);
+	void Inventory(const FInputActionValue& value);
 
 };
