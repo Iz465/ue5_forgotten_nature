@@ -19,6 +19,7 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	statsComponent = CreateDefaultSubobject<UPlayerStatsComponent>(TEXT("Stats Component"));
 	itemInteractionComponent = CreateDefaultSubobject<UItemInteractionComponent>(TEXT("Item Interaction Component"));
+	
 
 }
 
@@ -40,7 +41,11 @@ void APlayerCharacter::BeginPlay()
 
 	
 	cameraSpringArm = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
-	
+	playerCamera = FindComponentByClass<UCameraComponent>();
+
+	if (playerCamera)
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, TEXT("Camera found!"));
+
 	
 	
 }
@@ -113,7 +118,7 @@ void APlayerCharacter::Looking(const FInputActionValue& value)
 {
 	FVector2D looking2D = value.Get<FVector2D>();
 
-
+	if (itemInteractionComponent->inventoryOpen) return; // dont want camera moving when inventory tab is open
 	if (!Controller) return;
 
 	if (!cameraSpringArm) return;

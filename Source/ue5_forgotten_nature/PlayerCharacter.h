@@ -76,6 +76,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UItemInteractionComponent* itemInteractionComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UCameraComponent* playerCamera;
+
 
 	
 	

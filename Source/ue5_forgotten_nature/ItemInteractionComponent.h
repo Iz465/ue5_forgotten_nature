@@ -9,9 +9,10 @@
 
 
 class AActor;
+class ACharacter;
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class UE5_FORGOTTEN_NATURE_API UItemInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -44,5 +45,10 @@ public:
 	UUserWidget* inventoryWidgetInstance;
 
 	bool inventoryOpen = false;
+
+	ACharacter* player;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float grabDistance = 800;
 		
 };
